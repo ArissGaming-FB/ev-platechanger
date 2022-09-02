@@ -1,6 +1,17 @@
 # ev-platechanger
 A simple NUI plate changer.
 
+# Updated to work on QBCORE with item and oxmysql v1.9.2
+
+# QBCORE Item
+
+- add to qb-core/shared/items.lua
+
+	--EV-platechanger
+	["licenseplate"] 				 = {["name"] = "licenseplate", 				["label"] = "Customized License Plate", 		["weight"] = 0, 		["type"] = "item", 		["image"] = "plate.png", 				["unique"] = true, 		["useable"] = true, 	["shouldClose"] = true,   ["combinable"] = nil,   ["description"] = "Give Your Vehicle A Custom License Plate!"},
+
+add image from folder to qb-inventory/html/images
+
 # LICENSE
 Feel free to do whatever you want.
 

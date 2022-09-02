@@ -1,5 +1,6 @@
 local stateEsx =  GetResourceState('es_extended') == 'started' or GetResourceState('extendedmode') == 'started'
 local stateQbus =  GetResourceState('qb-core') == 'started'
+QBCore = exports['qb-core']:GetCoreObject()
 
 if stateEsx then
     RegisterNetEvent('ev:getPlate', function(plate, currentPlate)
@@ -92,16 +93,16 @@ elseif stateQbus then
                     return TriggerClientEvent('QBCore:Notify', source, 'You tried to set a plate with a bad word: ' .. plate)
                 end
             end
-            exports.oxmysql:fetch('SELECT plate FROM player_vehicles WHERE plate = @plate AND citizenid = @citizenid', {
+            exports.oxmysql:execute('SELECT plate FROM player_vehicles WHERE plate = @plate AND citizenid = @citizenid', {
                 ['plate'] = currentPlate,
                 ['citizenid'] = xPlayer.PlayerData.citizenid
             }, function(result)
                 if result[1] then
-                    exports.oxmysql:fetch('SELECT * FROM player_vehicles WHERE plate = @plate', {
+                    exports.oxmysql:execute('SELECT * FROM player_vehicles WHERE plate = @plate', {
                         ['plate'] = plate
                     }, function(exist)
                         if not exist[1] then
-                            exports.oxmysql:fetch('SELECT plate, mods FROM player_vehicles WHERE plate = @plate', {
+                            exports.oxmysql:execute('SELECT plate, mods FROM player_vehicles WHERE plate = @plate', {
                                 ['plate'] = currentPlate
                             },function(currentVehicle)
                                 if currentVehicle[1] then
@@ -139,7 +140,7 @@ elseif stateQbus then
         local xPlayer = QBCore.Functions.GetPlayer(source)
         local vehicle = GetVehiclePedIsIn(GetPlayerPed(source))
         if vehicle ~= 0 then
-            exports.oxmysql:fetch('SELECT plate FROM player_vehicles WHERE plate = @plate AND citizenid = @citizenid', {
+            exports.oxmysql:execute('SELECT plate FROM player_vehicles WHERE plate = @plate AND citizenid = @citizenid', {
                 ['plate'] = GetVehicleNumberPlateText(vehicle):match( "^%s*(.-)%s*$" ),
                 ['citizenid'] = xPlayer.PlayerData.citizenid
             }, function(result)
